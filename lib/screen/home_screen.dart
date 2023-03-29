@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_directional_test/screen/game_screen.dart';
+import 'package:flutter_directional_test/screen/game_setting_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class HomeScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => GameScreen(),
+                    builder: (_) => GameSettingScreen(),
                   ),
                 );
               },
