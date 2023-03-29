@@ -11,4 +11,9 @@ class Player {
     required this.isFirst,
     required this.iconData,
   });
+
+  @override
+  String toString() {
+    return 'name: $name, isFirst: $isFirst';
+  }
 }

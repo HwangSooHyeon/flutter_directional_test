@@ -16,4 +16,9 @@ class GameBoard {
       growable: false,
     );
   }
+
+  @override
+  String toString() {
+    return 'size: $size, winningCondition: $winningCondition';
+  }
 }
