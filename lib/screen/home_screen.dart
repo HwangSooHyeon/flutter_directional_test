@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_directional_test/screen/game_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -14,7 +15,14 @@ class HomeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => GameScreen(),
+                  ),
+                );
+              },
               child: Text(
                 '게임 시작',
               ),
