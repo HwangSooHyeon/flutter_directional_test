@@ -121,6 +121,18 @@ class _GameScreenState extends State<GameScreen> {
                       (index) {
                         return GestureDetector(
                           onTap: () {
+                            if (isTapped[index] && whoTapped.isNotEmpty) {
+                              showDialog(
+                                context: context,
+                                barrierDismissible: true,
+                                builder: (context) {
+                                  return AlertDialog(
+                                    content: Text('이미 둔 자리 입니다.'),
+                                  );
+                                },
+                              );
+                              return;
+                            }
                             setState(() {
                               isTapped[index] = true;
                               widget.player1.isTurn
@@ -136,13 +148,15 @@ class _GameScreenState extends State<GameScreen> {
                               Container(
                                 color: Colors.yellow[700],
                               ),
-                              if (isTapped[index] && whoTapped[index] == widget.player1.name)
+                              if (isTapped[index] &&
+                                  whoTapped[index] == widget.player1.name)
                                 Icon(
                                   widget.player1.iconData,
                                   size: 24,
                                   color: Colors.black,
                                 ),
-                              if (isTapped[index] && whoTapped[index] == widget.player2.name)
+                              if (isTapped[index] &&
+                                  whoTapped[index] == widget.player2.name)
                                 Icon(
                                   widget.player2.iconData,
                                   size: 24,
