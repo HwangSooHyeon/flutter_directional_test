@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_directional_test/model/game_board.dart';
+import 'package:flutter_directional_test/model/mark.dart';
 import 'package:flutter_directional_test/model/player.dart';
 
 class GameScreen extends StatefulWidget {
@@ -21,6 +22,8 @@ class GameScreen extends StatefulWidget {
 class _GameScreenState extends State<GameScreen> {
   late List<bool> isTapped;
   late List<String> whoTapped;
+  List<int> history = [];
+  int turn = 1;
 
   @override
   void initState() {
@@ -62,6 +65,7 @@ class _GameScreenState extends State<GameScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            Text('현재 턴: $turn'),
             if (widget.player1.isTurn)
               Column(
                 children: [
@@ -73,7 +77,42 @@ class _GameScreenState extends State<GameScreen> {
                       Text('남은 무르기 횟수: ${widget.player1.returnCount}'),
                       const SizedBox(width: 16.0),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (turn < 2) {
+                            showDialog(
+                              context: context,
+                              barrierDismissible: true,
+                              builder: (context) {
+                                return AlertDialog(
+                                  content: Text('2턴이 지나야 가능합니다.'),
+                                );
+                              },
+                            );
+                            return;
+                          }
+                          if (widget.player1.returnCount == 0) {
+                            showDialog(
+                              context: context,
+                              barrierDismissible: true,
+                              builder: (context) {
+                                return AlertDialog(
+                                  content: Text('무르기 횟수가 0입니다.'),
+                                );
+                              },
+                            );
+                            return;
+                          }
+                          setState(() {
+                            widget.player1.decReturnCount();
+                            for (int i = 0; i < 2; i++) {
+                              isTapped[history.last] = false;
+                              whoTapped[history.last] = '';
+                              history.removeLast();
+                            }
+                            widget.gameBoard.doReturn();
+                            turn -= 2;
+                          });
+                        },
                         child: Text(
                           '무르기',
                         ),
@@ -93,7 +132,42 @@ class _GameScreenState extends State<GameScreen> {
                       Text('남은 무르기 횟수: ${widget.player2.returnCount}'),
                       const SizedBox(width: 16.0),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (turn < 2) {
+                            showDialog(
+                              context: context,
+                              barrierDismissible: true,
+                              builder: (context) {
+                                return AlertDialog(
+                                  content: Text('2턴이 지나야 가능합니다.'),
+                                );
+                              },
+                            );
+                            return;
+                          }
+                          if (widget.player2.returnCount == 0) {
+                            showDialog(
+                              context: context,
+                              barrierDismissible: true,
+                              builder: (context) {
+                                return AlertDialog(
+                                  content: Text('무르기 횟수가 0입니다.'),
+                                );
+                              },
+                            );
+                            return;
+                          }
+                          setState(() {
+                            widget.player2.decReturnCount();
+                            for (int i = 0; i < 2; i++) {
+                              isTapped[history.last] = false;
+                              whoTapped[history.last] = '';
+                              history.removeLast();
+                            }
+                            widget.gameBoard.doReturn();
+                            turn -= 2;
+                          });
+                        },
                         child: Text(
                           '무르기',
                         ),
@@ -135,9 +209,21 @@ class _GameScreenState extends State<GameScreen> {
                             }
                             setState(() {
                               isTapped[index] = true;
-                              widget.player1.isTurn
-                                  ? whoTapped[index] = widget.player1.name
-                                  : whoTapped[index] = widget.player2.name;
+                              history.add(index);
+                              if (widget.player1.isTurn) {
+                                whoTapped[index] = widget.player1.name;
+                                Mark mark = Mark(iconData: widget.player1.iconData, turn: turn, index: index);
+                                widget.gameBoard.addHistory(mark);
+                                widget.gameBoard.addProgress(mark, index);
+                                turn++;
+                              }
+                              if (widget.player2.isTurn) {
+                                whoTapped[index] = widget.player2.name;
+                                Mark mark = Mark(iconData: widget.player2.iconData, turn: turn, index: index);
+                                widget.gameBoard.addHistory(mark);
+                                widget.gameBoard.addProgress(mark, index);
+                                turn++;
+                              }
                               widget.player1.setTurn();
                               widget.player2.setTurn();
                             });
