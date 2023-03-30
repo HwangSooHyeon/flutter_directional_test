@@ -62,10 +62,12 @@ class _GameScreenState extends State<GameScreen> {
         alignment: Alignment.center,
         color: Colors.white,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('현재 턴: $turn'),
+            Center(
+              child: Text('현재 턴: $turn'),
+            ),
             if (widget.player1.isTurn)
               Column(
                 children: [
@@ -212,18 +214,38 @@ class _GameScreenState extends State<GameScreen> {
                               history.add(index);
                               if (widget.player1.isTurn) {
                                 whoTapped[index] = widget.player1.name;
-                                Mark mark = Mark(iconData: widget.player1.iconData, turn: turn, index: index);
+                                Mark mark = Mark(
+                                    playerName: widget.player1.name,
+                                    iconData: widget.player1.iconData,
+                                    turn: turn,
+                                    index: index);
                                 widget.gameBoard.addHistory(mark);
                                 widget.gameBoard.addProgress(mark, index);
-                                turn++;
                               }
                               if (widget.player2.isTurn) {
                                 whoTapped[index] = widget.player2.name;
-                                Mark mark = Mark(iconData: widget.player2.iconData, turn: turn, index: index);
+                                Mark mark = Mark(
+                                    playerName: widget.player2.name,
+                                    iconData: widget.player2.iconData,
+                                    turn: turn,
+                                    index: index);
                                 widget.gameBoard.addHistory(mark);
                                 widget.gameBoard.addProgress(mark, index);
-                                turn++;
                               }
+                              String result = widget.gameBoard.checkEnd();
+                              if (result == '무승부') {
+                                print(result);
+                                return;
+                              }
+                              if (result == widget.player1.name) {
+                                print(result);
+                                return;
+                              }
+                              if (result == widget.player2.name) {
+                                print(result);
+                                return;
+                              }
+                              turn++;
                               widget.player1.setTurn();
                               widget.player2.setTurn();
                             });
