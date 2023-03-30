@@ -190,12 +190,12 @@ class _GameSettingScreenState extends State<GameSettingScreen> {
                   bool randomFlag = Random().nextBool();
                   Player player1 = Player(
                     name: _playerName1,
-                    isFirst: randomFlag,
+                    isTurn: randomFlag,
                     iconData: randomFlag ? Icons.circle_outlined : Icons.close,
                   );
                   Player player2 = Player(
                     name: _playerName2,
-                    isFirst: !randomFlag,
+                    isTurn: !randomFlag,
                     iconData: !randomFlag ? Icons.circle_outlined : Icons.close,
                   );
                   Navigator.push(
