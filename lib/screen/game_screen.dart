@@ -123,9 +123,12 @@ class _GameScreenState extends State<GameScreen> {
                           onTap: () {
                             setState(() {
                               isTapped[index] = true;
-
+                              widget.player1.isTurn
+                                  ? whoTapped[index] = widget.player1.name
+                                  : whoTapped[index] = widget.player2.name;
+                              widget.player1.setTurn();
+                              widget.player2.setTurn();
                             });
-                            setState(() {});
                           },
                           child: Stack(
                             alignment: Alignment.center,
@@ -133,13 +136,18 @@ class _GameScreenState extends State<GameScreen> {
                               Container(
                                 color: Colors.yellow[700],
                               ),
-                              if (isTapped[index])
+                              if (isTapped[index] && whoTapped[index] == widget.player1.name)
                                 Icon(
                                   widget.player1.iconData,
                                   size: 24,
                                   color: Colors.black,
                                 ),
-                              //if (isTapped[index])
+                              if (isTapped[index] && whoTapped[index] == widget.player2.name)
+                                Icon(
+                                  widget.player2.iconData,
+                                  size: 24,
+                                  color: Colors.black,
+                                ),
                             ],
                           ),
                         );
