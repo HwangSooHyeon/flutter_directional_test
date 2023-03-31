@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_directional_test/screen/game_setting_screen.dart';
 
+import '../model/game_board.dart';
+
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  List<GameBoard> saves = [];
+
+  HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +23,9 @@ class HomeScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => GameSettingScreen(),
+                    builder: (_) => GameSettingScreen(
+                      saves: saves,
+                    ),
                   ),
                 );
               },

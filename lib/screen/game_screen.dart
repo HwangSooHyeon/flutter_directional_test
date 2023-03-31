@@ -7,12 +7,14 @@ class GameScreen extends StatefulWidget {
   final GameBoard gameBoard;
   final Player player1;
   final Player player2;
+  List<GameBoard> saves;
 
-  const GameScreen({
+  GameScreen({
     Key? key,
     required this.gameBoard,
     required this.player1,
     required this.player2,
+    required this.saves,
   }) : super(key: key);
 
   @override

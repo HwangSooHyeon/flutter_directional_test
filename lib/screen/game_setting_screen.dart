@@ -6,7 +6,12 @@ import 'package:flutter_directional_test/model/player.dart';
 import 'package:flutter_directional_test/screen/game_screen.dart';
 
 class GameSettingScreen extends StatefulWidget {
-  const GameSettingScreen({Key? key}) : super(key: key);
+  List<GameBoard> saves;
+
+  GameSettingScreen({
+    Key? key,
+    required this.saves,
+  }) : super(key: key);
 
   @override
   State<GameSettingScreen> createState() => _GameSettingScreenState();
@@ -202,9 +207,11 @@ class _GameSettingScreenState extends State<GameSettingScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (_) => GameScreen(
-                          gameBoard: gameBoard,
-                          player1: player1,
-                          player2: player2),
+                        gameBoard: gameBoard,
+                        player1: player1,
+                        player2: player2,
+                        saves: widget.saves,
+                      ),
                     ),
                   );
                 }
