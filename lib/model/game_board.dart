@@ -40,7 +40,7 @@ class GameBoard {
   String checkEnd() {
     int count = 0;
     if (history.length == size * size) {
-      return '무승부';
+      return 'draw';
     }
     int col = history.last.index ~/ size;
     int row = history.last.index % size;
@@ -117,7 +117,7 @@ class GameBoard {
     if (count == winningCondition) {
       return playerName;
     }
-    return '진행';
+    return 'proceed';
   }
 
   @override
