@@ -4,9 +4,12 @@ import 'package:flutter_directional_test/screen/game_setting_screen.dart';
 import '../model/game_board.dart';
 
 class HomeScreen extends StatelessWidget {
-  List<GameBoard> saves = [];
+  List<GameBoard> saves;
 
-  HomeScreen({Key? key}) : super(key: key);
+  HomeScreen({
+    Key? key,
+    required this.saves,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
