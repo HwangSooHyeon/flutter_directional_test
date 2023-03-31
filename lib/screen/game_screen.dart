@@ -26,6 +26,7 @@ class _GameScreenState extends State<GameScreen> {
   late List<String> whoTapped;
   List<int> history = [];
   int turn = 1;
+  int saveFlag = 0;
 
   @override
   void initState() {
@@ -235,16 +236,64 @@ class _GameScreenState extends State<GameScreen> {
                                 widget.gameBoard.addProgress(mark, index);
                               }
                               String result = widget.gameBoard.checkEnd();
-                              if (result == '무승부') {
-                                print(result);
-                                return;
-                              }
-                              if (result == widget.player1.name) {
-                                print(result);
-                                return;
-                              }
-                              if (result == widget.player2.name) {
-                                print(result);
+                              if (result != 'proceed') {
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      content: result == 'draw'
+                                          ? Text(
+                                              '무승부 입니다.',
+                                            )
+                                          : Text(
+                                              '승자: $result',
+                                            ),
+                                      actions: [
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            if (saveFlag == 0) {
+                                              widget.saves.add(widget.gameBoard);
+                                              saveFlag = 1;
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    '저장되었습니다.',
+                                                  ),
+                                                ),
+                                              );
+                                            } else {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                SnackBar(
+                                                  content: Text(
+                                                    '이미 저장된 게임입니다.',
+                                                  ),
+                                                ),
+                                              );
+                                            }
+                                          },
+                                          child: Text(
+                                            '게임저장',
+                                          ),
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {},
+                                          child: Text(
+                                            '다시시작',
+                                          ),
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {},
+                                          child: Text(
+                                            '타이틀로',
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
                                 return;
                               }
                               turn++;
