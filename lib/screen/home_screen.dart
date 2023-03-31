@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_directional_test/component/custom_push_button.dart';
 import 'package:flutter_directional_test/screen/game_setting_screen.dart';
 import 'package:flutter_directional_test/screen/replay_list_screen.dart';
 
@@ -17,41 +18,19 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       body: Container(
         alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => GameSettingScreen(
-                      saves: saves,
-                    ),
-                  ),
-                );
-              },
-              child: Text(
-                '게임 시작',
-              ),
+            CustomPushButton(
+              screen: GameSettingScreen(saves: saves),
+              label: '게임 시작',
             ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => ReplayListScreen(
-                      saves: saves,
-                    ),
-                  ),
-                );
-              },
-              child: Text(
-                '저장된 게임',
-              ),
+            const SizedBox(height: 16),
+            CustomPushButton(
+              screen: ReplayListScreen(saves: saves),
+              label: '저장된 게임',
             ),
           ],
         ),
