@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_directional_test/screen/game_setting_screen.dart';
-import 'package:flutter_directional_test/screen/replay_screen.dart';
+import 'package:flutter_directional_test/screen/replay_list_screen.dart';
 
 import '../model/game_board.dart';
 
@@ -43,7 +43,7 @@ class HomeScreen extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => ReplayScreen(
+                    builder: (_) => ReplayListScreen(
                       saves: saves,
                     ),
                   ),
