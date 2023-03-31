@@ -318,14 +318,14 @@ class _GameScreenState extends State<GameScreen> {
                                   whoTapped[index] == widget.player1.name)
                                 Icon(
                                   widget.player1.iconData,
-                                  size: 24,
+                                  size: 96,
                                   color: Colors.black,
                                 ),
                               if (isTapped[index] &&
                                   whoTapped[index] == widget.player2.name)
                                 Icon(
                                   widget.player2.iconData,
-                                  size: 24,
+                                  size: 96,
                                   color: Colors.black,
                                 ),
                             ],
