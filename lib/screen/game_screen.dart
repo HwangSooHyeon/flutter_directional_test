@@ -7,9 +7,9 @@ class GameScreen extends StatefulWidget {
   final GameBoard gameBoard;
   final Player player1;
   final Player player2;
-  List<GameBoard> saves;
+  final List<GameBoard> saves;
 
-  GameScreen({
+  const GameScreen({
     Key? key,
     required this.gameBoard,
     required this.player1,
@@ -237,6 +237,8 @@ class _GameScreenState extends State<GameScreen> {
                               }
                               String result = widget.gameBoard.checkEnd();
                               if (result != 'proceed') {
+                                widget.gameBoard.setWinner(result);
+                                widget.gameBoard.setEndTime();
                                 showDialog(
                                   context: context,
                                   barrierDismissible: false,

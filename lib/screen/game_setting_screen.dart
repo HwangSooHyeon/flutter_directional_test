@@ -6,9 +6,9 @@ import 'package:flutter_directional_test/model/player.dart';
 import 'package:flutter_directional_test/screen/game_screen.dart';
 
 class GameSettingScreen extends StatefulWidget {
-  List<GameBoard> saves;
+  final List<GameBoard> saves;
 
-  GameSettingScreen({
+  const GameSettingScreen({
     Key? key,
     required this.saves,
   }) : super(key: key);

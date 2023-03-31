@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_directional_test/screen/game_setting_screen.dart';
+import 'package:flutter_directional_test/screen/replay_screen.dart';
 
 import '../model/game_board.dart';
 
 class HomeScreen extends StatelessWidget {
-  List<GameBoard> saves;
+  final List<GameBoard> saves;
 
-  HomeScreen({
+  const HomeScreen({
     Key? key,
     required this.saves,
   }) : super(key: key);
@@ -38,7 +39,16 @@ class HomeScreen extends StatelessWidget {
             ),
             SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => ReplayScreen(
+                      saves: saves,
+                    ),
+                  ),
+                );
+              },
               child: Text(
                 '저장된 게임',
               ),

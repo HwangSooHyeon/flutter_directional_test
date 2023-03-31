@@ -4,7 +4,7 @@ import 'package:flutter_directional_test/screen/home_screen.dart';
 import 'model/game_board.dart';
 
 void main() {
-  List<GameBoard> saves = [];
+  final List<GameBoard> saves = [];
 
   runApp(
     MaterialApp(
