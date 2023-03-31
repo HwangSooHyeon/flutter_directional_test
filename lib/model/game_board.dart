@@ -5,6 +5,8 @@ class GameBoard {
   final int winningCondition;
   late List<List<Mark?>> progress;
   List<Mark> history = <Mark>[];
+  String winner = '';
+  DateTime endTime = DateTime.now();
 
   GameBoard({
     required this.size,
@@ -15,6 +17,14 @@ class GameBoard {
       (index) => List.filled(size, null, growable: false),
       growable: false,
     );
+  }
+
+  void setWinner(String name) {
+    winner = name;
+  }
+
+  void setEndTime() {
+    endTime = DateTime.now();
   }
 
   void addProgress(Mark mark, int index) {
