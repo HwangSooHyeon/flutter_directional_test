@@ -279,13 +279,18 @@ class _GameScreenState extends State<GameScreen> {
                                           ),
                                         ),
                                         ElevatedButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                            Navigator.pop(context);
+                                          },
                                           child: Text(
                                             '다시시작',
                                           ),
                                         ),
                                         ElevatedButton(
-                                          onPressed: () {},
+                                          onPressed: () {
+                                            Navigator.popUntil(context, (route) => route.isFirst);
+                                          },
                                           child: Text(
                                             '타이틀로',
                                           ),
