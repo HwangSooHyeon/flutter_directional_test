@@ -1,9 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_directional_test/component/custom_radio_button.dart';
+import 'package:flutter_directional_test/component/custom_text_field.dart';
 import 'package:flutter_directional_test/model/game_board.dart';
 import 'package:flutter_directional_test/model/player.dart';
 import 'package:flutter_directional_test/screen/game_screen.dart';
+import 'package:flutter_directional_test/util/functions.dart';
 
 class GameSettingScreen extends StatefulWidget {
   final List<GameBoard> saves;
@@ -27,196 +30,116 @@ class _GameSettingScreenState extends State<GameSettingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        padding: EdgeInsets.symmetric(
+          horizontal: MediaQuery.of(context).size.width / 4,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text('게임판 사이즈 선택'),
-            ListTile(
-              title: Text('3 x 3'),
-              leading: Radio<int>(
-                value: 3,
-                groupValue: _size,
-                onChanged: (value) {
-                  if (_winningCondition! > value!) {
-                    setState(() {
-                      _winningCondition = value;
-                    });
-                  }
-                  setState(() {
-                    _size = value;
-                  });
-                },
-              ),
+            const Text('게임판 사이즈 선택'),
+            CustomRadioButton(
+              label: '3 x 3',
+              value: 3,
+              groupValue: _size,
+              onChanged: (value) {
+                _sizeValidation(value);
+                _setSize(value);
+              },
             ),
-            ListTile(
-              title: Text('4 x 4'),
-              leading: Radio<int>(
-                value: 4,
-                groupValue: _size,
-                onChanged: (value) {
-                  if (_winningCondition! > value!) {
-                    setState(() {
-                      _winningCondition = value;
-                    });
-                  }
-                  setState(() {
-                    _size = value;
-                  });
-                },
-              ),
+            CustomRadioButton(
+              label: '4 x 4',
+              value: 4,
+              groupValue: _size,
+              onChanged: (value) {
+                _sizeValidation(value);
+                _setSize(value);
+              },
             ),
-            ListTile(
-              title: Text('5 x 5'),
-              leading: Radio<int>(
-                value: 5,
-                groupValue: _size,
-                onChanged: (value) {
-                  setState(() {
-                    _size = value;
-                  });
-                },
-              ),
+            CustomRadioButton(
+              label: '5 x 5',
+              value: 5,
+              groupValue: _size,
+              onChanged: (value) {
+                _setSize(value);
+              },
             ),
-            Text('승리 조건 선택'),
-            ListTile(
-              title: Text('3연속 연결'),
-              leading: Radio<int>(
-                value: 3,
-                groupValue: _winningCondition,
-                onChanged: (value) {
-                  setState(() {
-                    _winningCondition = value;
-                  });
-                },
-              ),
+            const Text('승리 조건 선택'),
+            CustomRadioButton(
+              label: '3연속 연결',
+              value: 3,
+              groupValue: _winningCondition,
+              onChanged: (value) {
+                _setWinningCondition(value);
+              },
             ),
-            ListTile(
-              title: Text('4연속 연결'),
-              leading: Radio<int>(
-                value: 4,
-                groupValue: _winningCondition,
-                onChanged: (value) {
-                  if (_size! < 4) {
-                    showDialog(
-                      context: context,
-                      barrierDismissible: true,
-                      builder: (context) {
-                        return AlertDialog(
-                          content: Text('연결 횟수는 크기보다 클 수 없습니다.'),
-                        );
-                      },
-                    );
-                  }
-                  if (_size! >= 4) {
-                    setState(() {
-                      _winningCondition = value;
-                    });
-                  }
-                },
-              ),
+            CustomRadioButton(
+              label: '4연속 연결',
+              value: 4,
+              groupValue: _winningCondition,
+              onChanged: (value) {
+                if (_size! < 4) {
+                  showSimpleAlertDialog(context, '연결 횟수는 크기보다 클 수 없습니다.');
+                  return;
+                }
+                _setWinningCondition(value);
+              },
             ),
-            ListTile(
-              title: Text('5연속 연결'),
-              leading: Radio<int>(
-                value: 5,
-                groupValue: _winningCondition,
-                onChanged: (value) {
-                  if (_size! < 5) {
-                    showDialog(
-                      context: context,
-                      barrierDismissible: true,
-                      builder: (context) {
-                        return AlertDialog(
-                          content: Text('연결 횟수는 크기보다 클 수 없습니다.'),
-                        );
-                      },
-                    );
-                  }
-                  if (_size! >= 5) {
-                    setState(() {
-                      _winningCondition = value;
-                    });
-                  }
-                },
-              ),
+            CustomRadioButton(
+              label: '5연속 연결',
+              value: 5,
+              groupValue: _winningCondition,
+              onChanged: (value) {
+                if (_size! < 5) {
+                  showSimpleAlertDialog(context, '연결 횟수는 크기보다 클 수 없습니다.');
+                  return;
+                }
+                _setWinningCondition(value);
+              },
             ),
-            Text('플레이어 이름 입력'),
-            TextField(
+            const Text('플레이어 이름 입력'),
+            CustomTextField(
+              label: '플레이어1',
+              hint: '플레이어 이름을 입력하세요.',
               onChanged: (value) {
                 _playerName1 = value;
               },
-              keyboardType: TextInputType.multiline,
-              decoration: InputDecoration(
-                label: Text('플레이어1'),
-                hintText: '플레이어 이름을 입력하세요.',
-              ),
             ),
-            TextField(
+            CustomTextField(
+              label: '플레이어2',
+              hint: '플레이어 이름을 입력하세요.',
               onChanged: (value) {
                 _playerName2 = value;
               },
-              keyboardType: TextInputType.multiline,
-              decoration: InputDecoration(
-                label: Text('플레이어2'),
-                hintText: '플레이어 이름을 입력하세요.',
-              ),
             ),
+            const SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: () {
                 if (_playerName1 == '' || _playerName2 == '') {
-                  showDialog(
-                    context: context,
-                    barrierDismissible: true,
-                    builder: (context) {
-                      return AlertDialog(
-                        content: Text(
-                          '플레이어 이름을 입력해주세요.',
-                        ),
-                      );
-                    },
-                  );
-                } else if (_playerName1.compareTo(_playerName2) == 0) {
-                  showDialog(
-                    context: context,
-                    barrierDismissible: true,
-                    builder: (context) {
-                      return AlertDialog(
-                        content: Text(
-                          '플레이어 이름은 같을 수 없습니다.',
-                        ),
-                      );
-                    },
-                  );
-                } else {
-                  GameBoard gameBoard = GameBoard(
-                      size: _size!, winningCondition: _winningCondition!);
-                  bool randomFlag = Random().nextBool();
-                  Player player1 = Player(
-                    name: _playerName1,
-                    isTurn: randomFlag,
-                    iconData: randomFlag ? Icons.circle_outlined : Icons.close,
-                  );
-                  Player player2 = Player(
-                    name: _playerName2,
-                    isTurn: !randomFlag,
-                    iconData: !randomFlag ? Icons.circle_outlined : Icons.close,
-                  );
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => GameScreen(
-                        gameBoard: gameBoard,
-                        player1: player1,
-                        player2: player2,
-                        saves: widget.saves,
-                      ),
-                    ),
-                  );
+                  showSimpleAlertDialog(context, '플레이어 이름을 입력해주세요.');
+                  return;
                 }
+                if (_playerName1.compareTo(_playerName2) == 0) {
+                  showSimpleAlertDialog(context, '플레이어 이름은 같을 수 없습니다.');
+                  return;
+                }
+                bool randomFlag = Random().nextBool();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => GameScreen(
+                      gameBoard: _createGameBoard(),
+                      player1: _createPlayer(_playerName1, randomFlag),
+                      player2: _createPlayer(_playerName2, !randomFlag),
+                      saves: widget.saves,
+                    ),
+                  ),
+                );
               },
-              child: Text(
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size.fromHeight(55),
+              ),
+              child: const Text(
                 '게임 시작',
               ),
             ),
@@ -224,5 +147,40 @@ class _GameSettingScreenState extends State<GameSettingScreen> {
         ),
       ),
     );
+  }
+
+  GameBoard _createGameBoard() {
+    return GameBoard(
+      size: _size!,
+      winningCondition: _winningCondition!,
+    );
+  }
+
+  Player _createPlayer(String playerName, bool randomFlag) {
+    return Player(
+      name: playerName,
+      isTurn: randomFlag,
+      iconData: randomFlag ? Icons.circle_outlined : Icons.close,
+    );
+  }
+
+  void _sizeValidation(int? value) {
+    if (_winningCondition! > value!) {
+      setState(() {
+        _winningCondition = value;
+      });
+    }
+  }
+
+  void _setSize(int? value) {
+    setState(() {
+      _size = value;
+    });
+  }
+
+  void _setWinningCondition(int? value) {
+    setState(() {
+      _winningCondition = value;
+    });
   }
 }
