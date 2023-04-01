@@ -65,10 +65,10 @@ class _GameScreenState extends State<GameScreen> {
                       const SizedBox(width: 16.0),
                       ElevatedButton(
                         onPressed: () {
-                          if (turn < 2) {
+                          if (turn < 3) {
                             showSimpleAlertDialog(
                               context,
-                              '2턴이 지나야 가능합니다.',
+                              '3턴 부터 가능합니다.',
                             );
                             return;
                           }
@@ -110,13 +110,13 @@ class _GameScreenState extends State<GameScreen> {
                       const SizedBox(width: 16.0),
                       ElevatedButton(
                         onPressed: () {
-                          if (turn < 2) {
+                          if (turn < 3) {
                             showDialog(
                               context: context,
                               barrierDismissible: true,
                               builder: (context) {
                                 return AlertDialog(
-                                  content: Text('2턴이 지나야 가능합니다.'),
+                                  content: Text('3턴 부터 가능합니다.'),
                                 );
                               },
                             );
