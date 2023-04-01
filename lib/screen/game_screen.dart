@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_directional_test/component/custom_app_bar.dart';
 import 'package:flutter_directional_test/model/game_board.dart';
 import 'package:flutter_directional_test/model/mark.dart';
 import 'package:flutter_directional_test/model/player.dart';
+import 'package:flutter_directional_test/util/functions.dart';
 
 class GameScreen extends StatefulWidget {
   final GameBoard gameBoard;
@@ -40,32 +42,12 @@ class _GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Playing',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
-          ),
-          splashRadius: 0.1,
-        ),
-      ),
+      appBar: const CustomAppBar(title: 'Playing'),
       body: Container(
         alignment: Alignment.center,
         color: Colors.white,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Center(
@@ -84,26 +66,16 @@ class _GameScreenState extends State<GameScreen> {
                       ElevatedButton(
                         onPressed: () {
                           if (turn < 2) {
-                            showDialog(
-                              context: context,
-                              barrierDismissible: true,
-                              builder: (context) {
-                                return AlertDialog(
-                                  content: Text('2턴이 지나야 가능합니다.'),
-                                );
-                              },
+                            showSimpleAlertDialog(
+                              context,
+                              '2턴이 지나야 가능합니다.',
                             );
                             return;
                           }
                           if (widget.player1.returnCount == 0) {
-                            showDialog(
-                              context: context,
-                              barrierDismissible: true,
-                              builder: (context) {
-                                return AlertDialog(
-                                  content: Text('무르기 횟수가 0입니다.'),
-                                );
-                              },
+                            showSimpleAlertDialog(
+                              context,
+                              '무르기 횟수가 0입니다.',
                             );
                             return;
                           }
@@ -255,7 +227,8 @@ class _GameScreenState extends State<GameScreen> {
                                         ElevatedButton(
                                           onPressed: () {
                                             if (saveFlag == 0) {
-                                              widget.saves.add(widget.gameBoard);
+                                              widget.saves
+                                                  .add(widget.gameBoard);
                                               saveFlag = 1;
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
@@ -291,7 +264,8 @@ class _GameScreenState extends State<GameScreen> {
                                         ),
                                         ElevatedButton(
                                           onPressed: () {
-                                            Navigator.popUntil(context, (route) => route.isFirst);
+                                            Navigator.popUntil(context,
+                                                (route) => route.isFirst);
                                           },
                                           child: Text(
                                             '타이틀로',
@@ -316,17 +290,23 @@ class _GameScreenState extends State<GameScreen> {
                               ),
                               if (isTapped[index] &&
                                   whoTapped[index] == widget.player1.name)
-                                Icon(
-                                  widget.player1.iconData,
-                                  size: 96,
-                                  color: Colors.black,
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: Icon(
+                                    widget.player1.iconData,
+                                    size: 72,
+                                    color: Colors.black,
+                                  ),
                                 ),
                               if (isTapped[index] &&
                                   whoTapped[index] == widget.player2.name)
-                                Icon(
-                                  widget.player2.iconData,
-                                  size: 96,
-                                  color: Colors.black,
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: Icon(
+                                    widget.player2.iconData,
+                                    size: 72,
+                                    color: Colors.black,
+                                  ),
                                 ),
                             ],
                           ),
