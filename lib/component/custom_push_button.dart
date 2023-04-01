@@ -19,6 +19,9 @@ class CustomPushButton extends StatelessWidget {
           MaterialPageRoute(builder: (_) => screen),
         );
       },
+      style: ElevatedButton.styleFrom(
+        minimumSize: const Size.fromHeight(55),
+      ),
       child: Text(
         label,
       ),
