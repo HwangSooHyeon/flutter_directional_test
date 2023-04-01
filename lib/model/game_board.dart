@@ -1,3 +1,5 @@
+import 'package:flutter_directional_test/const/const.dart';
+
 import 'mark.dart';
 
 class GameBoard {
@@ -50,7 +52,7 @@ class GameBoard {
   String checkEnd() {
     int count = 0;
     if (history.length == size * size) {
-      return 'draw';
+      return draw;
     }
     int col = history.last.index ~/ size;
     int row = history.last.index % size;
@@ -127,7 +129,7 @@ class GameBoard {
     if (count == winningCondition) {
       return playerName;
     }
-    return 'proceed';
+    return proceed;
   }
 
   @override
