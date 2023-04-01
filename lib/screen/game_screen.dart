@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_directional_test/component/custom_aligned_icon.dart';
 import 'package:flutter_directional_test/component/custom_app_bar.dart';
+import 'package:flutter_directional_test/component/player_status.dart';
 import 'package:flutter_directional_test/model/game_board.dart';
 import 'package:flutter_directional_test/model/mark.dart';
 import 'package:flutter_directional_test/model/player.dart';
 import 'package:flutter_directional_test/util/functions.dart';
+
+import '../const/const.dart';
 
 class GameScreen extends StatefulWidget {
   final GameBoard gameBoard;
@@ -32,7 +36,6 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   void initState() {
-    setState(() {});
     isTapped =
         List.filled(widget.gameBoard.size * widget.gameBoard.size, false);
     whoTapped = List.filled(widget.gameBoard.size * widget.gameBoard.size, '');
@@ -54,115 +57,47 @@ class _GameScreenState extends State<GameScreen> {
               child: Text('현재 턴: $turn'),
             ),
             if (widget.player1.isTurn)
-              Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('당신의 턴: ${widget.player1.name}'),
-                      const SizedBox(width: 16.0),
-                      Text('남은 무르기 횟수: ${widget.player1.returnCount}'),
-                      const SizedBox(width: 16.0),
-                      ElevatedButton(
-                        onPressed: () {
-                          if (turn < 3) {
-                            showSimpleAlertDialog(
-                              context,
-                              '3턴 부터 가능합니다.',
-                            );
-                            return;
-                          }
-                          if (widget.player1.returnCount == 0) {
-                            showSimpleAlertDialog(
-                              context,
-                              '무르기 횟수가 0입니다.',
-                            );
-                            return;
-                          }
-                          setState(() {
-                            widget.player1.decReturnCount();
-                            for (int i = 0; i < 2; i++) {
-                              isTapped[history.last] = false;
-                              whoTapped[history.last] = '';
-                              history.removeLast();
-                            }
-                            widget.gameBoard.doReturn();
-                            turn -= 2;
-                          });
-                        },
-                        child: Text(
-                          '무르기',
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+              PlayerStatus(
+                name: widget.player1.name,
+                returnCount: widget.player1.returnCount,
+                onPressed: () {
+                  if (turn < 3) {
+                    showSimpleAlertDialog(context, '3턴 부터 가능합니다.');
+                    return;
+                  }
+                  if (widget.player1.returnCount == 0) {
+                    showSimpleAlertDialog(context, '무르기 횟수가 0입니다.');
+                    return;
+                  }
+                  widget.player1.decReturnCount();
+                  _doReturn();
+                },
               ),
             if (widget.player2.isTurn)
-              Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text('당신의 턴: ${widget.player2.name}'),
-                      const SizedBox(width: 16.0),
-                      Text('남은 무르기 횟수: ${widget.player2.returnCount}'),
-                      const SizedBox(width: 16.0),
-                      ElevatedButton(
-                        onPressed: () {
-                          if (turn < 3) {
-                            showDialog(
-                              context: context,
-                              barrierDismissible: true,
-                              builder: (context) {
-                                return AlertDialog(
-                                  content: Text('3턴 부터 가능합니다.'),
-                                );
-                              },
-                            );
-                            return;
-                          }
-                          if (widget.player2.returnCount == 0) {
-                            showDialog(
-                              context: context,
-                              barrierDismissible: true,
-                              builder: (context) {
-                                return AlertDialog(
-                                  content: Text('무르기 횟수가 0입니다.'),
-                                );
-                              },
-                            );
-                            return;
-                          }
-                          setState(() {
-                            widget.player2.decReturnCount();
-                            for (int i = 0; i < 2; i++) {
-                              isTapped[history.last] = false;
-                              whoTapped[history.last] = '';
-                              history.removeLast();
-                            }
-                            widget.gameBoard.doReturn();
-                            turn -= 2;
-                          });
-                        },
-                        child: Text(
-                          '무르기',
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+              PlayerStatus(
+                name: widget.player2.name,
+                returnCount: widget.player2.returnCount,
+                onPressed: () {
+                  if (turn < 3) {
+                    showSimpleAlertDialog(context, '3턴 부터 가능합니다.');
+                    return;
+                  }
+                  if (widget.player2.returnCount == 0) {
+                    showSimpleAlertDialog(context, '무르기 횟수가 0입니다.');
+                    return;
+                  }
+                  widget.player2.decReturnCount();
+                  _doReturn();
+                },
               ),
-            Container(
-              height: 16,
-              color: Colors.white,
-            ),
+            const SizedBox(height: 16, width: double.maxFinite),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width / 4),
+                  horizontal: MediaQuery.of(context).size.width / 4,
+                ),
                 child: SizedBox(
-                  height: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
                   child: GridView.count(
                     crossAxisCount: widget.gameBoard.size,
                     mainAxisSpacing: 10,
@@ -173,55 +108,29 @@ class _GameScreenState extends State<GameScreen> {
                         return GestureDetector(
                           onTap: () {
                             if (isTapped[index] && whoTapped.isNotEmpty) {
-                              showDialog(
-                                context: context,
-                                barrierDismissible: true,
-                                builder: (context) {
-                                  return AlertDialog(
-                                    content: Text('이미 둔 자리 입니다.'),
-                                  );
-                                },
-                              );
+                              showSimpleAlertDialog(context, '이미 둔 자리 입니다.');
                               return;
                             }
                             setState(() {
                               isTapped[index] = true;
                               history.add(index);
-                              if (widget.player1.isTurn) {
-                                whoTapped[index] = widget.player1.name;
-                                Mark mark = Mark(
-                                    playerName: widget.player1.name,
-                                    iconData: widget.player1.iconData,
-                                    turn: turn,
-                                    index: index);
-                                widget.gameBoard.addHistory(mark);
-                                widget.gameBoard.addProgress(mark, index);
-                              }
-                              if (widget.player2.isTurn) {
-                                whoTapped[index] = widget.player2.name;
-                                Mark mark = Mark(
-                                    playerName: widget.player2.name,
-                                    iconData: widget.player2.iconData,
-                                    turn: turn,
-                                    index: index);
-                                widget.gameBoard.addHistory(mark);
-                                widget.gameBoard.addProgress(mark, index);
-                              }
-                              String result = widget.gameBoard.checkEnd();
-                              if (result != 'proceed') {
-                                widget.gameBoard.setWinner(result);
+                              _addMarkInGameBoard(widget.player1, index);
+                              _addMarkInGameBoard(widget.player2, index);
+                              String gameResult = widget.gameBoard.checkEnd();
+                              if (gameResult != proceed) {
+                                widget.gameBoard.setWinner(gameResult);
                                 widget.gameBoard.setEndTime();
                                 showDialog(
                                   context: context,
                                   barrierDismissible: false,
                                   builder: (context) {
                                     return AlertDialog(
-                                      content: result == 'draw'
-                                          ? Text(
+                                      content: gameResult == draw
+                                          ? const Text(
                                               '무승부 입니다.',
                                             )
                                           : Text(
-                                              '승자: $result',
+                                              '승자: $gameResult',
                                             ),
                                       actions: [
                                         ElevatedButton(
@@ -232,7 +141,7 @@ class _GameScreenState extends State<GameScreen> {
                                               saveFlag = 1;
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
-                                                SnackBar(
+                                                const SnackBar(
                                                   content: Text(
                                                     '저장되었습니다.',
                                                   ),
@@ -241,7 +150,7 @@ class _GameScreenState extends State<GameScreen> {
                                             } else {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
-                                                SnackBar(
+                                                const SnackBar(
                                                   content: Text(
                                                     '이미 저장된 게임입니다.',
                                                   ),
@@ -249,7 +158,7 @@ class _GameScreenState extends State<GameScreen> {
                                               );
                                             }
                                           },
-                                          child: Text(
+                                          child: const Text(
                                             '게임저장',
                                           ),
                                         ),
@@ -258,7 +167,7 @@ class _GameScreenState extends State<GameScreen> {
                                             Navigator.pop(context);
                                             Navigator.pop(context);
                                           },
-                                          child: Text(
+                                          child: const Text(
                                             '다시시작',
                                           ),
                                         ),
@@ -267,7 +176,7 @@ class _GameScreenState extends State<GameScreen> {
                                             Navigator.popUntil(context,
                                                 (route) => route.isFirst);
                                           },
-                                          child: Text(
+                                          child: const Text(
                                             '타이틀로',
                                           ),
                                         ),
@@ -290,23 +199,13 @@ class _GameScreenState extends State<GameScreen> {
                               ),
                               if (isTapped[index] &&
                                   whoTapped[index] == widget.player1.name)
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: Icon(
-                                    widget.player1.iconData,
-                                    size: 72,
-                                    color: Colors.black,
-                                  ),
+                                CustomAlignedIcon(
+                                  iconData: widget.player1.iconData,
                                 ),
                               if (isTapped[index] &&
                                   whoTapped[index] == widget.player2.name)
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: Icon(
-                                    widget.player2.iconData,
-                                    size: 72,
-                                    color: Colors.black,
-                                  ),
+                                CustomAlignedIcon(
+                                  iconData: widget.player2.iconData,
                                 ),
                             ],
                           ),
@@ -322,5 +221,30 @@ class _GameScreenState extends State<GameScreen> {
         ),
       ),
     );
+  }
+
+  void _doReturn() {
+    setState(() {
+      for (int i = 0; i < 2; i++) {
+        isTapped[history.last] = false;
+        whoTapped[history.last] = '';
+        history.removeLast();
+      }
+      widget.gameBoard.doReturn();
+      turn -= 2;
+    });
+  }
+
+  void _addMarkInGameBoard(Player player, int index) {
+    if (player.isTurn) {
+      whoTapped[index] = player.name;
+      Mark mark = Mark(
+          playerName: player.name,
+          iconData: player.iconData,
+          turn: turn,
+          index: index);
+      widget.gameBoard.addHistory(mark);
+      widget.gameBoard.addProgress(mark, index);
+    }
   }
 }
