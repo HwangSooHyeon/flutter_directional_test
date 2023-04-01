@@ -19,8 +19,8 @@ class CustomPushButton extends StatelessWidget {
           MaterialPageRoute(builder: (_) => screen),
         );
       },
-      child: const Text(
-        '게임 시작',
+      child: Text(
+        label,
       ),
     );
   }
