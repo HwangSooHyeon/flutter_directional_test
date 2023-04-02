@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_directional_test/component/custom_app_bar.dart';
 import 'package:flutter_directional_test/component/custom_radio_button.dart';
 import 'package:flutter_directional_test/component/custom_text_field.dart';
 import 'package:flutter_directional_test/model/game_board.dart';
@@ -29,7 +30,9 @@ class _GameSettingScreenState extends State<GameSettingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      appBar: const CustomAppBar(title: 'Game Setting'),
+      backgroundColor: Colors.white,
+      body: Padding(
         padding: EdgeInsets.symmetric(
           horizontal: MediaQuery.of(context).size.width / 4,
         ),
