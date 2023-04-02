@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_directional_test/component/custom_aligned_Icon.dart';
+import 'package:flutter_directional_test/component/custom_app_bar.dart';
 import 'package:flutter_directional_test/model/game_board.dart';
 
 class ReplayScreen extends StatelessWidget {
@@ -12,27 +14,7 @@ class ReplayScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Replay',
-          style: TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
-          ),
-          splashRadius: 0.1,
-        ),
-      ),
+      appBar: const CustomAppBar(title: 'Replay'),
       body: Container(
         alignment: Alignment.center,
         color: Colors.white,
@@ -43,10 +25,7 @@ class ReplayScreen extends StatelessWidget {
             Center(
               child: Text('승자: ${gameBoard.winner}'),
             ),
-            Container(
-              height: 16,
-              color: Colors.white,
-            ),
+            const SizedBox(height: 16, width: double.maxFinite),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(
@@ -69,10 +48,9 @@ class ReplayScreen extends StatelessWidget {
                               color: Colors.yellow[700],
                             ),
                             if (gameBoard.progress[col][row] != null)
-                              Icon(
-                                gameBoard.progress[col][row]!.iconData,
-                                size: 96,
-                                color: Colors.black,
+                              CustomAlignedIcon(
+                                iconData:
+                                    gameBoard.progress[col][row]!.iconData,
                               ),
                             if (gameBoard.progress[col][row] != null)
                               Positioned(
@@ -81,7 +59,7 @@ class ReplayScreen extends StatelessWidget {
                                   color: Colors.white,
                                   child: Text(
                                     '${gameBoard.progress[col][row]!.turn}턴',
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.red,
                                       fontSize: 24,
                                       fontWeight: FontWeight.w600,
