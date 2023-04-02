@@ -3,6 +3,7 @@ import 'package:flutter_directional_test/component/custom_app_bar.dart';
 import 'package:flutter_directional_test/component/custom_push_button.dart';
 import 'package:flutter_directional_test/screen/replay_screen.dart';
 
+import '../const/const.dart';
 import '../model/game_board.dart';
 
 class ReplayListScreen extends StatelessWidget {
@@ -16,7 +17,7 @@ class ReplayListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Replay List'),
+      appBar: const CustomAppBar(title: replayListScreenTitle),
       backgroundColor: Colors.white,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

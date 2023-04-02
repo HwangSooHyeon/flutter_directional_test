@@ -45,7 +45,7 @@ class _GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Playing'),
+      appBar: const CustomAppBar(title: gameScreenTitle),
       backgroundColor: Colors.white,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -130,8 +130,7 @@ class _GameScreenState extends State<GameScreen> {
                                       ElevatedButton(
                                         onPressed: () {
                                           if (saveFlag == 0) {
-                                            widget.saves
-                                                .add(widget.gameBoard);
+                                            widget.saves.add(widget.gameBoard);
                                             saveFlag = 1;
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(
@@ -143,8 +142,7 @@ class _GameScreenState extends State<GameScreen> {
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(
                                               const SnackBar(
-                                                content:
-                                                    Text('이미 저장된 게임입니다.'),
+                                                content: Text('이미 저장된 게임입니다.'),
                                               ),
                                             );
                                           }

@@ -9,6 +9,8 @@ import 'package:flutter_directional_test/model/player.dart';
 import 'package:flutter_directional_test/screen/game_screen.dart';
 import 'package:flutter_directional_test/util/functions.dart';
 
+import '../const/const.dart';
+
 class GameSettingScreen extends StatefulWidget {
   final List<GameBoard> saves;
 
@@ -30,7 +32,7 @@ class _GameSettingScreenState extends State<GameSettingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Game Setting'),
+      appBar: const CustomAppBar(title: gameSettingScreenTitle),
       backgroundColor: Colors.white,
       body: Padding(
         padding: EdgeInsets.symmetric(

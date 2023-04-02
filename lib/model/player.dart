@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_directional_test/const/const.dart';
 
 class Player {
   final String name;
   final IconData iconData;
   bool isTurn;
-  int returnCount = 3;
+  int returnCount = initialReturnCount;
 
   Player({
     required this.name,

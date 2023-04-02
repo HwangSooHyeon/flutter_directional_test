@@ -3,6 +3,8 @@ import 'package:flutter_directional_test/component/custom_aligned_Icon.dart';
 import 'package:flutter_directional_test/component/custom_app_bar.dart';
 import 'package:flutter_directional_test/model/game_board.dart';
 
+import '../const/const.dart';
+
 class ReplayScreen extends StatelessWidget {
   final GameBoard gameBoard;
 
@@ -14,7 +16,7 @@ class ReplayScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'Replay'),
+      appBar: const CustomAppBar(title: replayScreenTitle),
       body: Container(
         alignment: Alignment.center,
         color: Colors.white,
