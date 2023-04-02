@@ -126,12 +126,8 @@ class _GameScreenState extends State<GameScreen> {
                                   builder: (context) {
                                     return AlertDialog(
                                       content: gameResult == draw
-                                          ? const Text(
-                                              '무승부 입니다.',
-                                            )
-                                          : Text(
-                                              '승자: $gameResult',
-                                            ),
+                                          ? const Text('무승부 입니다.')
+                                          : Text('승자: $gameResult'),
                                       actions: [
                                         ElevatedButton(
                                           onPressed: () {
@@ -142,18 +138,15 @@ class _GameScreenState extends State<GameScreen> {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
                                                 const SnackBar(
-                                                  content: Text(
-                                                    '저장되었습니다.',
-                                                  ),
+                                                  content: Text('저장되었습니다.'),
                                                 ),
                                               );
                                             } else {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
                                                 const SnackBar(
-                                                  content: Text(
-                                                    '이미 저장된 게임입니다.',
-                                                  ),
+                                                  content:
+                                                      Text('이미 저장된 게임입니다.'),
                                                 ),
                                               );
                                             }
