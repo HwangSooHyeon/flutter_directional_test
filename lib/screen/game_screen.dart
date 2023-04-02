@@ -151,27 +151,21 @@ class _GameScreenState extends State<GameScreen> {
                                               );
                                             }
                                           },
-                                          child: const Text(
-                                            '게임저장',
-                                          ),
+                                          child: const Text('게임저장'),
                                         ),
                                         ElevatedButton(
                                           onPressed: () {
                                             Navigator.pop(context);
                                             Navigator.pop(context);
                                           },
-                                          child: const Text(
-                                            '다시시작',
-                                          ),
+                                          child: const Text('다시시작'),
                                         ),
                                         ElevatedButton(
                                           onPressed: () {
                                             Navigator.popUntil(context,
                                                 (route) => route.isFirst);
                                           },
-                                          child: const Text(
-                                            '타이틀로',
-                                          ),
+                                          child: const Text('타이틀로'),
                                         ),
                                       ],
                                     );
