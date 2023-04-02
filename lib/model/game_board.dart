@@ -53,8 +53,8 @@ class GameBoard {
     int col = history.last.index ~/ size;
     int row = history.last.index % size;
     String playerName = history.last.playerName;
-    if (_checkHorizontal(col, row, playerName) == winningCondition ||
-        _checkVertical(col, row, playerName) == winningCondition ||
+    if (_checkHorizontal(col, playerName) == winningCondition ||
+        _checkVertical(row, playerName) == winningCondition ||
         _checkUpDiagonal(col, row, playerName) == winningCondition ||
         _checkBottomDiagonal(col, row, playerName) == winningCondition) {
       return playerName;
@@ -65,39 +65,29 @@ class GameBoard {
     return proceed;
   }
 
-  int _checkHorizontal(int col, int row, String playerName) {
+  int _checkHorizontal(int col, String playerName) {
     int count = 0;
-    while (progress[col][row] != null &&
-        progress[col][row]!.playerName == playerName &&
-        row > 0) {
-      row--;
-    }
-    while (progress[col][row] != null &&
-        progress[col][row]!.playerName == playerName &&
-        row < size) {
-      count++;
-      row++;
-      if (row == size) {
-        break;
+    for (int row = 0; row < size; row++) {
+      if (progress[col][row] != null &&
+          progress[col][row]!.playerName == playerName) {
+        count++;
+        if (count == winningCondition) break;
+      } else {
+        count = 0;
       }
     }
     return count;
   }
 
-  int _checkVertical(int col, int row, String playerName) {
+  int _checkVertical(int row, String playerName) {
     int count = 0;
-    while (progress[col][row] != null &&
-        progress[col][row]!.playerName == playerName &&
-        col > 0) {
-      col--;
-    }
-    while (progress[col][row] != null &&
-        progress[col][row]!.playerName == playerName &&
-        col < size) {
-      count++;
-      col++;
-      if (col == size) {
-        break;
+    for (int col = 0; col < size; col++) {
+      if (progress[col][row] != null &&
+          progress[col][row]!.playerName == playerName) {
+        count++;
+        if (count == winningCondition) break;
+      } else {
+        count = 0;
       }
     }
     return count;
@@ -112,16 +102,16 @@ class GameBoard {
       col--;
       row--;
     }
-    while (progress[col][row] != null &&
-        progress[col][row]!.playerName == playerName &&
-        col < size &&
-        row < size) {
-      count++;
+    while (col < size && row < size) {
+      if (progress[col][row] != null &&
+          progress[col][row]!.playerName == playerName) {
+        count++;
+        if (count == winningCondition) break;
+      } else {
+        count = 0;
+      }
       col++;
       row++;
-      if (col == size || row == size) {
-        break;
-      }
     }
     return count;
   }
@@ -138,16 +128,16 @@ class GameBoard {
         break;
       }
     }
-    while (progress[col][row] != null &&
-        progress[col][row]!.playerName == playerName &&
-        col >= 0 &&
-        row <= size - 1) {
-      count++;
+    while (col >= 0 && row <= size - 1) {
+      if (progress[col][row] != null &&
+          progress[col][row]!.playerName == playerName) {
+        count++;
+        if (count == winningCondition) break;
+      } else {
+        count = 0;
+      }
       col--;
       row++;
-      if (col == -1 || row == size) {
-        break;
-      }
     }
     return count;
   }
