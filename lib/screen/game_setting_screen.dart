@@ -45,7 +45,7 @@ class _GameSettingScreenState extends State<GameSettingScreen> {
             const Text('게임판 사이즈 선택'),
             CustomRadioButton(
               label: '3 x 3',
-              value: 3,
+              value: size3By3,
               groupValue: _size,
               onChanged: (value) {
                 _sizeValidation(value);
@@ -54,7 +54,7 @@ class _GameSettingScreenState extends State<GameSettingScreen> {
             ),
             CustomRadioButton(
               label: '4 x 4',
-              value: 4,
+              value: size4By4,
               groupValue: _size,
               onChanged: (value) {
                 _sizeValidation(value);
@@ -63,7 +63,7 @@ class _GameSettingScreenState extends State<GameSettingScreen> {
             ),
             CustomRadioButton(
               label: '5 x 5',
-              value: 5,
+              value: size5By5,
               groupValue: _size,
               onChanged: (value) {
                 _setSize(value);
@@ -72,7 +72,7 @@ class _GameSettingScreenState extends State<GameSettingScreen> {
             const Text('승리 조건 선택'),
             CustomRadioButton(
               label: '3연속 연결',
-              value: 3,
+              value: continuous3,
               groupValue: _winningCondition,
               onChanged: (value) {
                 _setWinningCondition(value);
@@ -80,10 +80,10 @@ class _GameSettingScreenState extends State<GameSettingScreen> {
             ),
             CustomRadioButton(
               label: '4연속 연결',
-              value: 4,
+              value: continuous4,
               groupValue: _winningCondition,
               onChanged: (value) {
-                if (_size! < 4) {
+                if (_size! < continuous4) {
                   showSimpleAlertDialog(context, '연결 횟수는 크기보다 클 수 없습니다.');
                   return;
                 }
@@ -92,10 +92,10 @@ class _GameSettingScreenState extends State<GameSettingScreen> {
             ),
             CustomRadioButton(
               label: '5연속 연결',
-              value: 5,
+              value: continuous5,
               groupValue: _winningCondition,
               onChanged: (value) {
-                if (_size! < 5) {
+                if (_size! < continuous5) {
                   showSimpleAlertDialog(context, '연결 횟수는 크기보다 클 수 없습니다.');
                   return;
                 }
